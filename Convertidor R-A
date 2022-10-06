@@ -1,0 +1,184 @@
+#include <iostream>
+
+using namespace std;
+
+
+class Conversion // Clase padre
+{
+public:
+	void Arabigos();
+	void Romanos();
+	void Menu();
+};
+
+class Menu 
+{
+public:
+    int entrada;
+    void iniciarMenu();
+};
+
+void stringToUpper(string &s);
+
+//Objeto
+Menu objetoMenu;
+
+
+void Conversion::Arabigos()
+{
+		int numero,unidades,decenas,centenas,millares;
+		cout << "\nIngresa un numero entre [1-3999] para convertirlo a romano:  ";
+		cin >> numero;
+		
+		unidades = numero%10; numero /= 10;
+		decenas = numero%10; numero /= 10;
+		centenas = numero%10; numero /= 10;
+		millares = numero%10; numero /= 10;
+		
+		switch(millares){
+			case 1: cout << "M"; break;
+			case 2: cout << "MM"; break;
+			case 3: cout << "MMM"; break;
+		}
+		
+		switch(centenas){
+			case 1: cout << "C"; break;
+			case 2: cout << "CC"; break;
+			case 3: cout << "CCC"; break;
+			case 4: cout << "CD"; break;
+			case 5: cout << "D"; break;
+			case 6: cout << "DC"; break;
+			case 7: cout << "DCC"; break;
+			case 8: cout << "DCCC"; break;
+			case 9: cout << "CM"; break;
+		}
+		
+		switch(decenas){
+			case 1: cout << "X"; break;
+			case 2: cout << "XX"; break;
+			case 3: cout << "XXX"; break;
+			case 4: cout << "XL"; break;
+			case 5: cout << "L"; break;
+			case 6: cout << "LX"; break;
+			case 7: cout << "LXX"; break;
+			case 8: cout << "LXXX"; break;
+			case 9: cout << "XC"; break;
+		}
+		
+		switch(unidades){
+			case 1: cout << "I"; break;
+			case 2: cout << "II"; break;
+			case 3: cout << "III"; break;
+			case 4: cout << "IV"; break;
+			case 5: cout << "V"; break;
+			case 6: cout << "VI"; break;
+			case 7: cout << "VII"; break;
+			case 8: cout << "VIII"; break;
+			case 9: cout << "IX"; break;
+		}
+	cout<<"\n\n";
+	system("pause");
+	system("cls");
+	objetoMenu.iniciarMenu();
+}
+
+void Conversion::Romanos()
+{   
+	//i servira para la posicion de cada letra
+    //j servira para la posicion del rango de valores
+	int valor[] = {1000, 500, 100, 50, 10, 5, 1};
+    string simbolo = "MDCLXVI",cadena;
+    char c;
+    int resultado=0,i=0,j=0,ultimovalor=0;
+    bool valido=true;
+    cout<<"\n\nIngrese un numero romano: ";cin>>cadena;
+    stringToUpper(cadena);
+    while(valido && (i < cadena.length()))
+    {
+        c = cadena[i];
+        j = simbolo.find(c);
+        if(j>=0)
+        {
+            resultado += valor[j];
+            //si el valor es mayor que el de la
+            //vuelta anterior del bucle, entonces
+            //el anterior debíamos haberlo restado
+            if(valor[j] > ultimovalor)
+            {
+                resultado -= 2 * ultimovalor;
+            }
+            //preparamos el ultimo valor para
+            //la siguiente vuelta del bucle
+            ultimovalor = valor[j];
+        }
+        else
+        {
+            valido = false;
+            resultado = -1;
+        }
+        i++;
+    }
+    cout<<"\nEl numero arabigo es : "<<resultado<<endl;
+       cout<<"\n\n";
+	   system("pause");
+	   system("cls");
+	   system("pause");
+	   objetoMenu.iniciarMenu();
+    
+}
+
+void stringToUpper(string &s)
+{
+    for(int i=0; i<s.length();i++)
+        s[i] = toupper(s[i]);
+}
+
+void Menu::iniciarMenu() 
+{
+    system("cls");//Limpia la pantalla de la consola
+    cout <<"\n\t------------------------------------------\n";
+    cout <<"\n\tBIENVENIDO A ESTE MENU DE CONVERCIONES c:"<<endl;
+    cout <<"\n\t------------------------------------------\n";
+    cout << "\n\n Que opcion desea convertir ? " << endl << "[1] Romanos" << endl << "[2] Arabigos" << endl << "[3] Salir" << endl;
+    cin >> entrada;// Para decidir entre triangulo y cuadrado
+
+    if (entrada == 1)
+    {
+        system("cls");
+        cout <<"\n\t------------------------------------------------------------\n";
+        cout << "\n\t Bienvenido, usted a escogido convertir Arabigos a Romanos" << endl;
+        cout <<"\n\t------------------------------------------------------------\n";
+        	Conversion conver;
+			conver.Arabigos();
+    }
+
+    if (entrada == 2)
+    {
+        system("cls");
+        cout <<"\n\t------------------------------------------------------------\n";
+        cout << "\n\t Bienvenido, usted a escogido convertir Romanos a Arabigos" << endl;
+        cout <<"\n\t------------------------------------------------------------\n";
+        Conversion conver;
+		conver.Romanos();
+    }
+    if (entrada == 3)
+    {
+        system("cls");
+        cout <<"\n\t-----------------------------\n";
+        cout << "\n\t     Vuelva pronto c: !\n";
+        cout <<"\n\t-----------------------------\n";
+        cout <<"\n";
+		system("pause");
+    }
+    else if (entrada != 1 && 2 && 3)
+    {
+        objetoMenu.iniciarMenu();
+    }
+
+}
+
+int main()
+{
+		system("color B8");
+        objetoMenu.iniciarMenu();
+}
